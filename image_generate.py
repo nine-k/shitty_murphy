@@ -8,12 +8,16 @@ def cleanLine(data):
     data.encode('ascii', 'ignore')
     res = ''
     for i in data:
-        if (i.isalpha() or i.isdigit() or i == ' '):
+        if (i.isalpha() or i.isdigit() or i == ' ' or i == '.'):
             res += i
     return res
 
 def isImageFromMurphy(data):
     return 'MurphyBot' in data and 'photo' in data
+
+def isImageGenerationError(data):
+    return 'MurphyBot' in data and '...' in data
+
 
 def getMessageNumber(data):
     res = ''
@@ -44,6 +48,12 @@ tg = subprocess.Popen(["tg/bin/telegram-cli", "-CWNk", "tg/tg-server.pub"],
 for line in iter(tg.stdout.readline, ''):
     line = line.decode('UTF-8')
     line = cleanLine(line) #delete most of the unneeded characters
+    if isImageGenerationError(line):
+        print("Murphy couldnt make it")
+        tg.stdin.write(bytes(generateRequest(), 'UTF-8'))
+        tg.stdin.flush()
+        sleep(5)
+
     if isImageFromMurphy(line): #if murphy sent an image download it and send a new request
         print("got an image from Murphy!")
         msgid = getMessageNumber(line)
