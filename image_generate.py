@@ -2,7 +2,7 @@ import subprocess
 import random
 from time import sleep
 
-REQUEST_TIMEOUT = 5
+REQUEST_TIMEOUT = 10
 
 POSTS_TO_GENERATE = 50
 postsGenerated = 0
@@ -55,6 +55,7 @@ for line in iter(tg.stdout.readline, ''):
         print("Murphy couldnt make it")
         tg.stdin.write(bytes(generateRequest(), 'UTF-8'))
         tg.stdin.flush()
+        postsGenerated -= 1
         sleep(5)
 
     if isImageFromMurphy(line): #if murphy sent an image download it and send a new request
