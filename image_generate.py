@@ -2,7 +2,7 @@ import subprocess
 import random
 from time import sleep
 
-REQUEST_TIMEOUT = 15
+REQUEST_TIMEOUT = 5
 
 def cleanLine(data):
     data.encode('ascii', 'ignore')
