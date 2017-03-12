@@ -4,6 +4,9 @@ from time import sleep
 
 REQUEST_TIMEOUT = 5
 
+POSTS_TO_GENERATE = 50
+postsGenerated = 0
+
 def cleanLine(data):
     data.encode('ascii', 'ignore')
     res = ''
@@ -63,4 +66,9 @@ for line in iter(tg.stdout.readline, ''):
         tg.stdin.write(bytes(generateRequest(), 'UTF-8'))
         tg.stdin.flush()
         sleep(5)
-
+        postsGenerated += 1
+        print("Generated", postsGenerated, "posts")
+        if postsGenerated > POSTS_TO_GENERATE:
+            tg.stdin.close()
+            tg.stdout.close()
+            tg.terminate()
