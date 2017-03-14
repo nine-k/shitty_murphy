@@ -32,15 +32,20 @@ def getMessageNumber(data):
         pos += 1
     return res
 
-wordList = []
+wordList1 = []
+wordList2 = []
 
 with open("words.txt", 'r') as f:
     for line in f:
-        wordList.extend(line.strip().split())
+        wordList1.append(line.strip())
+
+with open("actor_names.txt", 'r') as f:
+    for line in f:
+        wordList2.append(line.strip())
 
 def generateRequest():
-    word1 = random.choice(wordList)
-    word2 = random.choice(wordList)
+    word1 = random.choice(wordList2)
+    word2 = random.choice(wordList1)
     return "msg MurphyBot what if " + word1 + " was " + word2 + " ?\n"
 
 print(generateRequest())
